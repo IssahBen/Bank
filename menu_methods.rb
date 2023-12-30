@@ -115,5 +115,6 @@ def viewBalance(customer)
     
     puts "Your balance is #{customer.bank_account.balance}"
   end
+  
 end
 
