@@ -1,4 +1,4 @@
-require_relative "Transactions"
+require_relative "transactions"
 class Account
     attr_accessor :balance,:transactions
 
@@ -12,11 +12,11 @@ class Account
     end
 
 
-    def add_transaction(transobj)
+    def add_transaction(transaction_object)
 
-        @transactions.push(transobj)
+        @transactions.push(transaction_object)
 
-        @balance += transobj.amount
+        @balance += transaction_object.amount
 
         return   @balance
       

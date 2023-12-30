@@ -1,4 +1,4 @@
-require_relative "menumethods"
+require_relative "menu_methods"
 
 toggle=nil
 
@@ -8,12 +8,7 @@ while toggle!="q"
 
   if customer  == nil
 
-    puts "Enter 1 to create a new account"
-
-    choice = gets.chomp
-    if choice == "1"
       customer = create_account
-    end
   end
   puts "Enter 2 to withdrawal"
 

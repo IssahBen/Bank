@@ -1,5 +1,5 @@
 require_relative "bank_account"
-require_relative "Transactions"
+require_relative "transactions"
 require_relative "customer"
 
 def create_account
@@ -27,9 +27,9 @@ def create_account
 
   deposit = gets.chomp.to_i
 
-  transobj = Transaction.new("debit",deposit)
+  transaction_object = Transaction.new("debit",deposit)
 
-  customer.bank_account.add_transaction(transobj)
+  customer.bank_account.add_transaction(transaction_object)
 
   p customer.bank_account.balance
 
@@ -47,9 +47,9 @@ def withdrawal(customer)
 
     withdrawal_amount = gets.chomp.to_i
 
-    transobj=Transaction.new("credit",withdrawal_amount)
+    transaction_object=Transaction.new("credit",withdrawal_amount)
 
-    customer.bank_account.add_transaction(transobj)
+    customer.bank_account.add_transaction(transaction_object)
 
   end
   if customer.bank_account.balance<0
@@ -78,9 +78,9 @@ def deposit(customer)
 
     deposit_amount = gets.chomp.to_i
 
-    transobj = Transaction.new("debit",deposit_amount)
+    transaction_object = Transaction.new("debit",deposit_amount)
 
-    customer.bank_account.add_transaction(transobj)
+    customer.bank_account.add_transaction(transaction_object)
 
   end
   puts "Your balance is #{customer.bank_account.balance}"
@@ -115,6 +115,6 @@ def viewBalance(customer)
     
     puts "Your balance is #{customer.bank_account.balance}"
   end
-  
+
 end
 
