@@ -26,6 +26,8 @@ while toggle!="q" && logout_attempts<=2
     puts "Enter 5 to view balance\n"
 
     puts "Enter 6 to transfer\n"
+
+    puts "Enter 7 to reset Pin"
   
     puts "Enter q to quit\n"
   
@@ -152,6 +154,28 @@ while toggle!="q" && logout_attempts<=2
       logout_attempts = customer.attempts
   
   
+    elsif choice == "7"
+      puts "Enter last name"
+
+
+      last_name = gets.chomp
+
+      puts "Enter secret code"
+
+      account_code = gets.chomp
+
+      customer = nil
+
+      customers.each do |customerx|
+
+        if customerx.last_name == last_name && customerx.account_code == account_code
+
+          customer = customerx
+        end
+      end
+      customer = reset_pin(customer)
+      logout_attempts = customer.attempts
+
     elsif choice == "q"
   
       toggle = "q"

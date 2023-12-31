@@ -210,3 +210,26 @@ def transfer(customer)
     return customer
   end
 end
+
+def reset_pin(customer)
+      puts "Enter your pin"
+
+    pin = gets.chomp
+
+    if pin == customer.pin
+
+      puts "Enter New pin"
+
+      new_pin=gets.chomp
+
+      customer.pin=new_pin
+      return customer
+    else
+      puts "Invalid pin"
+
+      customer.attempts+=1
+      puts "try again"
+      return customer
+    end
+
+end
