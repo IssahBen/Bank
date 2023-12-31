@@ -13,27 +13,39 @@ def create_account
   last_name = gets.chomp
 
 
-  puts "Enter  a new pin"
+  puts "Enter  a new pin."
 
   pin = gets.chomp
+  if pin.scan(/[a-z]/i).size != 0
+    puts "Pin contains letters"
+    return
+  else
 
-  puts "Enter a bank account type Savings/Chequing"
+    puts "Enter a bank account type Savings/Chequing"
 
-  bank_account = gets.chomp
+    bank_account = gets.chomp
 
-  customer = Customer.new(first_name,last_name,pin,bank_account)
+    customer = Customer.new(first_name,last_name,pin,bank_account)
 
-  puts "Enter a deposit amount"
+    puts "Enter a deposit amount"
 
-  deposit = gets.chomp.to_i
+    deposit = gets.chomp
+    if deposit.scan(/[a-z]/i).size != 0
 
-  transaction_object = Transaction.new("credit",deposit)
+      puts "Not an amount"
 
-  customer.bank_account.add_transaction(transaction_object)
+      return
+    else
 
-  p customer.bank_account.balance
+      transaction_object = Transaction.new("credit",deposit.to_i)
 
-  return customer
+      customer.bank_account.add_transaction(transaction_object)
+
+      p customer.bank_account.balance
+
+      return customer
+    end
+  end
 end
 
 def withdrawal(customer)
