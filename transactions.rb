@@ -1,17 +1,15 @@
 
 class Transaction
-    attr_accessor :amount ,:type
-    def initialize(type,amount)
+  attr_accessor :amount ,:type
+  def initialize(type,amount)
 
-        if type=="debit"
+      if type=="debit"
 
-            @amount = amount.to_i
-        else
-          @amount =- amount.to_i
-        end
-      @type=type
-          
-    end
+          @amount = -amount.to_i
+      else
+        @amount = amount.to_i
+      end
+    @type=type
+
+  end
 end
-
-

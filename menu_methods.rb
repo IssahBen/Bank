@@ -27,7 +27,7 @@ def create_account
 
   deposit = gets.chomp.to_i
 
-  transaction_object = Transaction.new("debit",deposit)
+  transaction_object = Transaction.new("credit",deposit)
 
   customer.bank_account.add_transaction(transaction_object)
 
@@ -47,22 +47,30 @@ def withdrawal(customer)
 
     withdrawal_amount = gets.chomp.to_i
 
-    transaction_object=Transaction.new("credit",withdrawal_amount)
+    transaction_object=Transaction.new("debit",withdrawal_amount)
 
     customer.bank_account.add_transaction(transaction_object)
-
-  end
-  if customer.bank_account.balance<0
-
-    p "Insufficient balance"
-
+  
+    if customer.bank_account.balance<0
+  
+      p "Insufficient balance"
+  
+    else
+  
+      puts "Your balance is #{customer.bank_account.balance}"
+  
+    end
+  
+    return customer
   else
+    puts "Ivalid pin"
 
-    puts "Your balance is #{customer.bank_account.balance}"
+    customer.attempts += 1
 
+    puts "try again"
+
+    return customer
   end
-
-  return customer
 
 
 end
@@ -74,18 +82,27 @@ def deposit(customer)
   pin=gets.chomp
 
   if pin == customer.pin
+
     puts "Enter deposit amount"
 
     deposit_amount = gets.chomp.to_i
 
-    transaction_object = Transaction.new("debit",deposit_amount)
+    transaction_object = Transaction.new("credit",deposit_amount)
 
     customer.bank_account.add_transaction(transaction_object)
 
-  end
   puts "Your balance is #{customer.bank_account.balance}"
 
   return customer
+  else
+    puts "Invalid pin"
+
+    customer.attempts+=1
+    puts "try again"
+
+    return customer
+
+  end
 end
 
 def viewTransactions(customer)
@@ -102,7 +119,16 @@ def viewTransactions(customer)
     end
 
 
+  else
+    puts "Invalid pin"
+
+    customer.attempts+=1
+
+    puts "try again"
+
+    return customer
   end
+  
 end
 
 def viewBalance(customer)
@@ -112,9 +138,46 @@ def viewBalance(customer)
   pin = gets.chomp
 
   if pin == customer.pin
-    
+
     puts "Your balance is #{customer.bank_account.balance}"
+  else
+
+    puts "Invalid pin"
+
+    customer.attempts+=1
+
+    puts "try again"
+    return customer
   end
 
 end
+def transfer(customer)
+  puts "Enter your pin"
 
+  pin = gets.chomp
+
+  if pin == customer.pin
+
+    puts "Enter the amount to transfer"
+
+    transfer_amount = gets.chomp.to_i
+
+    puts "Enter the account number to transfer to"
+
+    account_number=gets.chomp
+
+    transfer_transaction=Transaction.new("debit",transfer_amount)
+
+    customer.bank_account.add_transaction(transfer_transaction)
+
+    puts "Your balance is #{customer.bank_account.balance}"
+
+    return customer
+  else
+    puts "Invalid pin"
+
+    customer.attempts+=1
+    puts "try again"
+    return customer
+  end
+end

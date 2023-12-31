@@ -19,11 +19,7 @@ class Account
         @balance += transaction_object.amount
 
         return   @balance
-      
-        
+
+
     end
 end
-
-
-
-
