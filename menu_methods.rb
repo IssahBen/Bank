@@ -16,7 +16,7 @@ def create_account
   puts "Enter  a new pin."
 
   pin = gets.chomp
-  if pin.scan(/[a-z]/i).size != 0
+  if pin.scan(/[a-z]/i).size != 0 
     puts "Pin contains letters"
     return
   else
@@ -55,25 +55,31 @@ def withdrawal(customer)
   pin = gets.chomp
   if pin == customer.pin
 
-    puts "Enter withdrawal amount"
+      puts "Enter withdrawal amount"
 
-    withdrawal_amount = gets.chomp.to_i
+      withdrawal_amount = gets.chomp
 
-    transaction_object=Transaction.new("debit",withdrawal_amount)
+      if withdrawal_amount.scan(/[a-z]/).size != 0
+        puts "Invalid amount"
+        return customer
+      else
 
-    customer.bank_account.add_transaction(transaction_object)
-  
-    if customer.bank_account.balance<0
-  
-      p "Insufficient balance"
-  
-    else
-  
-      puts "Your balance is #{customer.bank_account.balance}"
-  
-    end
-  
-    return customer
+        transaction_object=Transaction.new("debit",withdrawal_amount.to_i)
+
+        customer.bank_account.add_transaction(transaction_object)
+      
+        if customer.bank_account.balance<0
+      
+          p "Insufficient balance"
+      
+        else
+      
+          puts "Your balance is #{customer.bank_account.balance}"
+      
+        end
+      
+        return customer
+      end
   else
     puts "Ivalid pin"
 
@@ -97,15 +103,23 @@ def deposit(customer)
 
     puts "Enter deposit amount"
 
-    deposit_amount = gets.chomp.to_i
+    deposit_amount = gets.chomp
+    if deposit_amount.scan(/[a-z]/i).size != 0
+      puts "Invalid Amount"
 
-    transaction_object = Transaction.new("credit",deposit_amount)
+      return customer
+    else
 
-    customer.bank_account.add_transaction(transaction_object)
 
-  puts "Your balance is #{customer.bank_account.balance}"
+      transaction_object = Transaction.new("credit",deposit_amount.to_i)
 
-  return customer
+      customer.bank_account.add_transaction(transaction_object)
+
+      puts "Your balance is #{customer.bank_account.balance}"
+
+      return customer
+    end
+
   else
     puts "Invalid pin"
 
