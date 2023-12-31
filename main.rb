@@ -2,17 +2,21 @@ require_relative "menu_methods"
 
 toggle=nil
 
-customer=nil
+customers=[ ]
 logout_attempts=0
 
 while toggle!="q" && logout_attempts<=2
   
 
-  if customer  == nil
+  if customers.empty?
 
-      customer = create_account
+      customers << create_account
+      
   else
     puts "System will quit after 3rd Failed  login attempt"
+
+    puts "Enter 1 to create account"
+
     puts "Enter 2 to withdrawal\n"
   
     puts "Enter 3 to deposit\n"
@@ -26,8 +30,29 @@ while toggle!="q" && logout_attempts<=2
     puts "Enter q to quit\n"
   
     choice = gets.chomp
-  
-    if choice == "2"
+    if choice == "1"
+      customers << create_account
+
+   elsif choice == "2"
+      puts "Enter last name"
+
+
+      last_name = gets.chomp
+
+      puts "Enter secret code"
+
+      account_code = gets.chomp
+
+      customer = nil
+
+      customers.each do |customerx|
+
+        if customerx.last_name == last_name && customerx.account_code == account_code
+
+          customer = customerx
+        end
+      end
+
   
       customer = withdrawal(customer)
       logout_attempts = customer.attempts
@@ -35,6 +60,24 @@ while toggle!="q" && logout_attempts<=2
       
   
     elsif choice == "3"
+      puts "Enter last name"
+
+
+      last_name =  gets.chomp
+
+      puts "Enter secret code"
+
+      account_code = gets.chomp
+
+      customer = nil
+
+      customers.each do |customerx|
+
+        if customerx.last_name == last_name && customerx.account_code == account_code
+
+          customer = customerx
+        end
+      end
   
       customer = deposit(customer)
       logout_attempts = customer.attempts
@@ -42,6 +85,24 @@ while toggle!="q" && logout_attempts<=2
       
   
     elsif choice == "4"
+      puts "Enter last name"
+
+
+      last_name  = gets.chomp
+
+      puts "Enter secret code"
+
+      account_code = gets.chomp
+
+      customer = nil
+
+      customers.each do |customerx|
+
+        if customerx.last_name == last_name && customerx.account_code == account_code
+
+          customer = customerx
+        end
+      end
   
       customer = viewTransactions(customer)
       logout_attempts = customer.attempts
@@ -49,13 +110,44 @@ while toggle!="q" && logout_attempts<=2
   
       next
     elsif choice == "5"
-  
-      customer = viewBalance(customer)
-      logout_attempts = customer.attempts
-      
-      
+      puts "Enter last name"
+
+
+      last_name = gets.chomp
+
+      puts "Enter secret code"
+
+      account_code = gets.chomp
+
+      customer = nil
+
+      customers.each do |customerx|
+
+        if customerx.last_name == last_name && customerx.account_code == account_code
+
+          customer = customerx
+        end
+      end
   
     elsif choice == "6"
+      puts "Enter last name"
+
+
+      last_name = gets.chomp
+
+      puts "Enter secret code"
+
+      account_code = gets.chomp
+
+      customer = nil
+
+      customers.each do |customerx|
+
+        if customerx.last_name == last_name && customerx.account_code == account_code
+
+          customer = customerx
+        end
+      end
       customer = transfer(customer)
       logout_attempts = customer.attempts
   

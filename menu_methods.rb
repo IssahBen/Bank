@@ -11,6 +11,9 @@ def create_account
   puts "Enter your last name"
 
   last_name = gets.chomp
+  puts "Enter secret account code"
+
+  account_code=gets.chomp
 
 
   puts "Enter  a new pin."
@@ -25,7 +28,7 @@ def create_account
 
     bank_account = gets.chomp
 
-    customer = Customer.new(first_name,last_name,pin,bank_account)
+    customer = Customer.new(first_name,last_name,pin,bank_account,account_code)
 
     puts "Enter a deposit amount"
 
