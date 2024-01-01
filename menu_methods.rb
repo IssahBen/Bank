@@ -78,7 +78,7 @@ module Menumethods
    amount=gets.chomp
    account.withdraw(amount)
 
-   puts "withdrawal successful your current Balance is #{account.balance}"
+   puts  "Your current Balance is #{account.balance}"
    
 
   end
@@ -117,7 +117,7 @@ module Menumethods
    amount=gets.chomp
    account.deposit(amount)
 
-   puts "deposit successful your current Balance is #{account.balance}"
+   puts "Your current Balance is #{account.balance}"
    
   end
 

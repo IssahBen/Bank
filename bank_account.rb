@@ -16,10 +16,15 @@ class Account
     end
 
     def withdraw(amount)
-        add_transaction(Transaction.new("debit",amount))
+        if  amount.to_i <= @balance
+            add_transaction(Transaction.new("debit",amount))
+        else
+            p "Insufficient Balance"
+        end
     end
 
     def add_transaction(transaction_object)
+
 
         @transactions.push(transaction_object)
 
