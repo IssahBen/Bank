@@ -1,7 +1,7 @@
 require_relative "bank_account"
 require_relative "transactions"
 class  Customer
-    attr_accessor :bank_accounts,:pin,:first_name
+    attr_accessor :bank_accounts,:pin,:first_name,:transfer_contacts
 
     def initialize(first_name,last_name,pin)
         @first_name =  first_name
@@ -11,6 +11,8 @@ class  Customer
         @pin = pin
 
         @bank_accounts  =  []
+
+        @transfer_contacts=[]
     end
 
     def create_account(type,name)

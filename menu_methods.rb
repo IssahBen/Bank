@@ -214,18 +214,60 @@ module Menumethods
     puts "Account not found"
     return
    end
+   menu_string=<<-Menu
+      Enter 1 select from contact list
 
-   puts "Enter Transfer receipient"
+      Enter 2 to transfer with new receipient
 
-   receipient=gets.chomp
+      Menu
+    puts menu_string
 
-   puts "Transfer amount"
+    choice=gets.chomp
+    
+    case choice
+    when "1"
+      if customer.transfer_contacts.empty?
+        puts "Contact list empty"
+      
+      else
+        p customer.transfer_contacts
+        puts "Select customer"
+        name=gets.chomp
+        contact=nil
 
-   transfer_amount=gets.chomp.to_i
+        if customer.transfer_contacts.include?(name)
+          
+          puts "Transfer amount"
 
-   account.withdraw(transfer_amount)
+          transfer_amount=gets.chomp.to_i
 
-   puts "Your current balance is #{account.balance}"
+          account.withdraw(transfer_amount)
+
+          puts "Your current balance is #{account.balance}"
+        else
+          "Name not present in list"
+        end
+      end
+
+
+
+
+    when "2"
+
+      puts "Enter Transfer receipient"
+
+      receipient=gets.chomp
+
+      customer.transfer_contacts << receipient
+
+      puts "Transfer amount"
+
+      transfer_amount=gets.chomp.to_i
+
+      account.withdraw(transfer_amount)
+
+      puts "Your current balance is #{account.balance}"
+    end
 
 
 
