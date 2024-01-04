@@ -15,11 +15,11 @@ class Account
         add_transaction (Transaction.new("credit",amount))
     end
 
-    def withdraw(amount)
+    def withdraw(amount,&block)
         if  amount.to_i <= @balance
             add_transaction(Transaction.new("debit",amount))
         else
-            p "Insufficient Balance"
+             block.call
         end
     end
 

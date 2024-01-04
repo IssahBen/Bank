@@ -58,6 +58,7 @@ module Menumethods
 
    unless customer
     puts "Customer not found"
+    return
    end
 
    puts "Enter account name"
@@ -76,7 +77,7 @@ module Menumethods
    puts "Enter Amount to withdraw"
 
    amount=gets.chomp
-   account.withdraw(amount)
+   account.withdraw(amount){ p "Insufficient balance"}
 
    puts  "Your current Balance is #{account.balance}"
    
@@ -97,6 +98,7 @@ module Menumethods
 
    unless customer
     puts "Customer not found"
+    return
    end
 
    puts "Enter account name"
@@ -129,7 +131,7 @@ module Menumethods
 
     pin = gets.chomp
 
-   customer=customers.find{|customer| customer.first_name=first_name && customer.pin==pin}
+   customer=customers.find{|customer| customer.first_name==first_name && customer.pin==pin}
 
    unless customer
     puts "Customer not found"
@@ -141,7 +143,7 @@ module Menumethods
    puts "Enter account type"
    account_type=gets.chomp
 
-   account=customer.bank_accounts.find{|account| account.name== account_name && account.type=account_type}
+   account=customer.bank_accounts.find{|account| account.name== account_name && account.type==account_type}
 
    unless account
     puts "Account not found"
@@ -162,7 +164,7 @@ module Menumethods
 
     pin = gets.chomp
 
-   customer=customers.find{|customer| customer.first_name=first_name && customer.pin==pin}
+   customer=customers.find{|customer| customer.first_name==first_name && customer.pin==pin}
 
    unless customer
     puts "Customer not found"
@@ -174,7 +176,7 @@ module Menumethods
    puts "Enter account type"
    account_type=gets.chomp
 
-   account=customer.bank_accounts.find{|account| account.name== account_name && account.type=account_type}
+   account=customer.bank_accounts.find{|account| account.name== account_name && account.type==account_type}
 
    unless account
     puts "Account not found"
@@ -193,10 +195,11 @@ module Menumethods
 
     pin = gets.chomp
 
-   customer=customers.find{|customer| customer.first_name=first_name && customer.pin==pin}
+   customer=customers.find{|customer| customer.first_name==first_name && customer.pin==pin}
 
    unless customer
     puts "Customer not found"
+    return
    end
 
    puts "Enter account name"
@@ -205,7 +208,7 @@ module Menumethods
    puts "Enter account type"
    account_type=gets.chomp
 
-   account=customer.bank_accounts.find{|account| account.name== account_name && account.type=account_type}
+   account=customer.bank_accounts.find{|account| account.name== account_name && account.type==account_type}
 
    unless account
     puts "Account not found"
@@ -242,6 +245,7 @@ module Menumethods
 
    unless customer
     puts "Customer not found"
+    return
    end
    puts "Enter new pin"
 
