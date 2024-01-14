@@ -1,14 +1,37 @@
 require_relative "transactions"
+require_relative 'models'
+require 'pg'
 class Account
     attr_accessor :balance,:transactions,:name,:type
 
-    def initialize(type,name)
+    def initialize(type,name,id ,balance=0)
+        conn = PG.connect(dbname:'Bank',user:'postgres',password:'postgres',host:'localhost')
 
-        @name = name
+        @transactions_table=Transactions.new(conn)
+        @account_table=Accounts.new(conn)
 
+        list =@transactions_table.pull_transaction_info(id)
+        
         @transactions  = []
 
-        @balance = 0
+        unless list.empty?
+
+            list.each do |transaction|
+                @transactions << Transaction.new(*transaction)
+            end
+        end
+
+
+        
+        @name = name
+        @type = type
+
+
+
+
+        @balance = balance
+
+        @id=id
     end
 
     def deposit(amount)
@@ -22,13 +45,17 @@ class Account
              block.call
         end
     end
+    private 
 
     def add_transaction(transaction_object)
 
 
         @transactions.push(transaction_object)
+        @transactions_table.insert(@id,transaction_object.type,transaction_object.amount)
 
         @balance += transaction_object.amount
+
+        @account_table.update_balance(@id,@name,@type,@balance)
 
         return   @balance
 

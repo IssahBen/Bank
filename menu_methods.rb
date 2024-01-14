@@ -45,6 +45,32 @@ module Menumethods
 
   end
 
+  def login
+    conn = PG.connect(dbname:'Bank',user:'postgres',password:'postgres',host:'localhost')
+    customer_table = User.new(conn)
+    puts "Enter first name"
+    first_name = gets.chomp
+
+    puts "Enter last Name"
+    last_name=gets.chomp
+
+    if customer_table.customer?(first_name,last_name)
+      puts "Enter your pin"
+      pin=gets.chomp
+      unless pin == customer_table.pull_pin(first_name,last_name)
+        puts "Invalid Pin"
+      else
+        puts "Welcome"
+        customer=Customer.new(first_name,last_name,pin)
+      end
+    else
+      puts "Invalid Credentials"
+    end
+  end
+
+
+
+
   def withdrawal
     puts "Enter your first name"
 
@@ -66,6 +92,8 @@ module Menumethods
 
    puts "Enter account type"
    account_type=gets.chomp
+
+
 
    account=customer.bank_accounts.find{|account| account.name== account_name && account.type=account_type}
 
@@ -107,6 +135,8 @@ module Menumethods
    puts "Enter account type"
    account_type=gets.chomp
 
+   p customer.bank_accounts
+
    account=customer.bank_accounts.find{|account| account.name== account_name && account.type=account_type}
 
    unless account
@@ -144,13 +174,13 @@ module Menumethods
    account_type=gets.chomp
 
    account=customer.bank_accounts.find{|account| account.name== account_name && account.type==account_type}
-
+   
    unless account
     puts "Account not found"
     return
    end
    account.transactions.each_with_index do |transaction,index|
-    puts "#{index}: type: #{transaction.type} amount: #{transaction.amount}"
+    puts "#{index+1}: type: #{transaction.type} amount: #{transaction.amount}"
    end
 
   end
@@ -188,91 +218,7 @@ module Menumethods
 
 
   end
-  def transfer
-    first_name=gets.chomp
-
-    puts "Enter your pin"
-
-    pin = gets.chomp
-
-   customer=customers.find{|customer| customer.first_name==first_name && customer.pin==pin}
-
-   unless customer
-    puts "Customer not found"
-    return
-   end
-
-   puts "Enter account name"
-   account_name=gets.chomp
-
-   puts "Enter account type"
-   account_type=gets.chomp
-
-   account=customer.bank_accounts.find{|account| account.name== account_name && account.type==account_type}
-
-   unless account
-    puts "Account not found"
-    return
-   end
-   menu_string=<<-Menu
-      Enter 1 select from contact list
-
-      Enter 2 to transfer with new receipient
-
-      Menu
-    puts menu_string
-
-    choice=gets.chomp
-    
-    case choice
-    when "1"
-      if customer.transfer_contacts.empty?
-        puts "Contact list empty"
-      
-      else
-        p customer.transfer_contacts
-        puts "Select customer"
-        name=gets.chomp
-        contact=nil
-
-        if customer.transfer_contacts.include?(name)
-          
-          puts "Transfer amount"
-
-          transfer_amount=gets.chomp.to_i
-
-          account.withdraw(transfer_amount)
-
-          puts "Your current balance is #{account.balance}"
-        else
-          "Name not present in list"
-        end
-      end
-
-
-
-
-    when "2"
-
-      puts "Enter Transfer receipient"
-
-      receipient=gets.chomp
-
-      customer.transfer_contacts << receipient
-
-      puts "Transfer amount"
-
-      transfer_amount=gets.chomp.to_i
-
-      account.withdraw(transfer_amount)
-
-      puts "Your current balance is #{account.balance}"
-    end
-
-
-
-
-  end
+ 
 
   def reset_pin
 
@@ -293,7 +239,7 @@ module Menumethods
 
    new_pin=gets.chomp
 
-   customer.pin= new_pin
+   customer.update_pin(new_pin)
 
    puts "Your new pin is #{customer.pin}"
   end

@@ -1,4 +1,14 @@
 require_relative "menu_methods"
+require_relative 'models'
+require 'pg'
+
+conn = PG.connect(dbname:'Bank',user:'postgres',password:'postgres',host:'localhost')
+customer_table = User.new(conn)
+customer_table.create_table
+account_table = Accounts.new(conn)
+account_table.create_table
+transaction_table = Transactions.new(conn)
+transaction_table.create_table
 
 class MenuClass
     extend Menumethods
@@ -13,11 +23,11 @@ class MenuClass
         menu_string = <<-Menu
         Welcome
         Enter 1 to create account
-        Enter 2 to deposit
-        Enter 3 to withdraw
-        Enter 4 to view transactions
-        Enter 5 to view balance
-        Enter 6 to transfer
+        Enter 2 to login
+        Enter 3 to deposit
+        Enter 4 to withdraw
+        Enter 5 to view transactions
+        Enter 6 to view balance
         Enter 7 to reset Pin
         Enter q to quit 
     Menu
@@ -30,16 +40,19 @@ class MenuClass
         when "1"
             create_account
         when "2"
-            deposit
+            @@customers << login
+
         when "3"
-            withdrawal
+            deposit
         when "4"
-            view_transactions
+            withdrawal
         when "5"
-            view_balance
+            view_transactions
         when "6"
-            transfer
+            view_balance
         when "7"
+            transfer
+        when "8"
             reset_pin
         when "q"
 
@@ -50,6 +63,7 @@ class MenuClass
         customer=create_customer
         create_customer_account(customer)
         @@customers << customer
+     
     end
 
 end
